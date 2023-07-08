@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import Swap from "./views/Swap";
-import Token from "./views/Token";
+import Tokens from "./views/Tokens";
 import Main from "./components/layouts/Main";
 
 
@@ -14,8 +14,8 @@ const routes: RouteObject[] = [
                 element: <Swap />,
             },
             {
-                path: 'token',
-                element: <Token />,
+                path: 'tokens',
+                element: <Tokens />,
             }
         ],
     },
