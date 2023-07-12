@@ -1,3 +1,3 @@
 # Starkdex
 
-A simple DEX implementation in Cairo
+A simple AMM implementation in Cairo
