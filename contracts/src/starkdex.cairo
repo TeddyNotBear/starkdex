@@ -53,7 +53,9 @@ mod Stardex {
             let (token, eth) = get_token_contract(@self);
             
             let mut lp_tokens_to_mint: u256 = 0_u256;
-            let eth_balance: u256 = eth.balance_of(get_contract_address());
+            // Should work with balance_of() when eth contract will be rewrite
+            //let eth_balance: u256 = eth.balance_of(get_contract_address());
+            let eth_balance: u256 = eth.balanceOf(get_contract_address());
             let token_reserve_balance: u256 = IStarkdexDispatcher { contract_address: get_contract_address() }.get_reserve();
             
             if token_reserve_balance == 0 {
@@ -61,7 +63,9 @@ mod Stardex {
                 lp_tokens_to_mint = eth_balance;
                 token.mint(get_caller_address(), lp_tokens_to_mint);
             } else {
-                assert(eth.balance_of(get_caller_address()) >= amount_of_eth, 'INSUFFICIENT_ETH_BALANCE');
+                // Will work with balance_of() when eth contract is rewritten
+                // let eth_balance: u256 = eth.balance_of(get_contract_address());
+                assert(eth.balanceOf(get_caller_address()) >= amount_of_eth, 'INSUFFICIENT_ETH_BALANCE');
                 let eth_reserve = eth_balance - amount_of_eth;
                 let token_amount = (amount_of_eth * token_reserve_balance) / eth_reserve;
 
@@ -76,7 +80,9 @@ mod Stardex {
         fn remove_liquidity(ref self: ContractState, amount: u256) -> (u256, u256) {
             assert(amount > 0, 'AMOUNT_CANNOT_BE_ZERO');
             let (token, eth) = get_token_contract(@self);
-            let eth_reserve: u256 = eth.balance_of(get_contract_address());
+            // Will work with balance_of() when eth contract is rewritten
+            // let eth_balance: u256 = eth.balance_of(get_contract_address());
+            let eth_reserve: u256 = eth.balanceOf(get_contract_address());
             let total_supply: u256 = token.total_supply();
             let eth_amount = (eth_reserve * amount) / total_supply;
             let token_reserve_balance: u256 = IStarkdexDispatcher { contract_address: get_contract_address() }.get_reserve();
@@ -91,7 +97,9 @@ mod Stardex {
         fn eth_to_token(ref self: ContractState, eth_sold: u256, min_tokens: u256) {
             let (token, eth) = get_token_contract(@self);
             let token_reserve_balance: u256 = IStarkdexDispatcher { contract_address: get_contract_address() }.get_reserve();
-            assert(eth.balance_of(get_contract_address()) >= eth_sold, 'INSUFFICIENT_ETH_BALANCE');
+            // Will work with balance_of() when eth contract is rewritten
+            // let eth_balance: u256 = eth.balance_of(get_contract_address());
+            assert(eth.balanceOf(get_contract_address()) >= eth_sold, 'INSUFFICIENT_ETH_BALANCE');
             
             let token_contract_balance = token.balance_of(get_contract_address());
             let tokens_bought = IStarkdexDispatcher { contract_address: get_contract_address() }
